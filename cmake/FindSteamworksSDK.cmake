@@ -18,16 +18,26 @@ if (NOT SteamworksSDK_FOUND)
 		vendor/include
 	)
 
-	add_library(SteamworksSDK::SteamworksSDK STATIC IMPORTED)
+	add_library(SteamworksSDK::SteamworksSDK SHARED IMPORTED)
 
-	set_target_properties(
-		SteamworksSDK::SteamworksSDK
-		PROPERTIES
-		IMPORTED_LOCATION
-		"${SteamworksSDK_LIBRARY}"
-		INTERFACE_INCLUDE_DIRECTORIES
-		"${SteamworksSDK_INCLUDE_DIR}"
+	set_target_properties(SteamworksSDK::SteamworksSDK PROPERTIES
+		INTERFACE_INCLUDE_DIRECTORIES "${SteamworksSDK_INCLUDE_DIR}"
 	)
+
+ 	if(WIN32)
+		find_file(SteamworksSDK_DLL
+	    	NAMES steam_api64.dll
+		)
+ 
+    	set_target_properties(SteamworksSDK::SteamworksSDK PROPERTIES
+        	IMPORTED_IMPLIB "${SteamworksSDK_LIBRARY}"
+			IMPORTED_LOCATION "${SteamworksSDK_DLL}"
+    	)
+	else()
+    	set_target_properties(SteamworksSDK::SteamworksSDK PROPERTIES
+			IMPORTED_LOCATION "${SteamworksSDK_LIBRARY}"
+    	)
+ 	endif()
 
 	#-----------------------------------------
 
