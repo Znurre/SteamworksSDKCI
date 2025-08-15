@@ -27,6 +27,7 @@ if (NOT SteamworksSDK_FOUND)
  	if(WIN32)
 		find_file(SteamworksSDK_DLL
 	    	NAMES steam_api64.dll
+	  		PATHS "${CMAKE_CURRENT_LIST_DIR}/../../bin"
 		)
  
     	set_target_properties(SteamworksSDK::SteamworksSDK PROPERTIES
